@@ -1,4 +1,6 @@
 credentials.json
 token.json
+TrackHistory.db
+DesktopData.db
 .vscode/
 _pycache_/
