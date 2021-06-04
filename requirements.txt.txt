@@ -1,0 +1,3 @@
+django
+google-auth-oauthlib
+fpdf2
