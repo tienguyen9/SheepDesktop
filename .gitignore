@@ -1,4 +1,4 @@
 credentials.json
 token.json
-.vscode
-_pycache_
+.vscode/
+_pycache_/
