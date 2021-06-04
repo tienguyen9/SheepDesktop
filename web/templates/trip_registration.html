@@ -1,0 +1,46 @@
+<html>
+    <meta charset="UTF-8">
+    <title>Register trip {{trip.trip_id}}</title>
+
+    {% load static %}
+
+    <link rel="stylesheet" type="text/css" href="{% static 'web/style.css' %}">
+
+    <body>
+        {% include "navigation.html" %}
+        <table style="width:30%">
+            <tr>
+                <th>Trip ID</th>
+                <th>Date and time</th>
+                <th>Spotted sheep</th>
+                <th>Spotted lambs</th>
+                <th>Expected lambs</th>
+                <th>Missing lambs</th>
+                <th>Dead Animals</th>
+                <th>Wolf</th>
+                <th>Lynx</th>
+                <th>Wolverine</th>
+            </tr>
+            <tr>
+                <td>{{ trip.trip_id }}</td>
+                <td>{{ trip.trip_date_time }}</td>
+                <td>{{totalSheep}}</td>
+                <td>{{totalLambs}}</td>
+                <td>{{totalExpectedLambs}}</td>
+                <td>{{missingLambs}}</td>
+                <td>{{deadSheep}}</td>
+                <td>{{totalWolves}}</td>
+                <td>{{totalLynx}}</td>
+                <td>{{totalWolverines}}</td>
+
+            </tr>
+        </table>
+
+        <form method="post">
+            {% csrf_token %}
+            <label style="font-weight: bold;" for="description">Describe the trip:</label><br>
+            <textarea id="description" name="description"></textarea><br><br>
+            <input style="font-size: 25px;" type="submit" value="Register Trip">
+          </form> 
+    </body>
+</html> 

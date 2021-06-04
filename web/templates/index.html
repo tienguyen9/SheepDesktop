@@ -1,0 +1,139 @@
+<html>
+  <head>
+    <meta charset="UTF-8">
+    {% load static %}
+
+    <link rel="stylesheet" type="text/css" href="{% static 'web/style.css' %}">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.5.1/dist/leaflet.css"
+
+    <!-- Make sure you put this AFTER Leaflet's CSS -->
+    <script src="https://unpkg.com/leaflet@1.5.1/dist/leaflet.js"
+    integrity="sha512-GffPMF3RvMeYyc1LWMHtK8EbPv0iNZ8/oTtHPx9/cc2ILxQ+u905qIwdpULaqDkyBKgOaB57QTMg7ztg8Jm2Og=="
+    crossorigin=""></script>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.css"/>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.js"></script>
+    
+
+    <head>
+      <link rel="import" href="navigation.html">
+  </head>
+    <title>Sheep Tracker</title>
+  </head>
+
+{% block content %}
+
+  <body>
+    {% include "navigation.html" %}
+
+    <div id="map"></div>
+
+    <button class="openbtn" onclick="toggle()">Toggle Sidepanel</button>  
+
+
+    <button id="savePredDB" onclick="savePredDB()">Save Area(s)</button>
+
+
+    <div id="mySidepanel" class="sidepanel">
+      <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+      <button id="drawCheckedData" onclick="drawCheckedData()">Visualize</button>
+      <button id="showPredatorAreas" onclick="drawPredatorAreas()"> Toggle predator areas </button><br>
+      <input id="includePredators" type="checkbox" checked="checked">
+      <label id="includeLabel">Include predator markers</label><br>  
+      <input id="includeDeads" type="checkbox" checked="checked">
+      <label id="includeDeads">Include dead sheep</label><br>  
+      <br>
+      <button id="checkAllSheepBoxes" onclick="toggleSheepBoxes()">Toggle all sheep markers</button>
+      <button id="checkAllUserBoxes" onclick="toggleTripBoxes()">Toggle all user trails</button> <br>
+      <div id="sheepMarkerTrips">
+        <h3>Check sheep markers</h3>
+        {% for trip in trips %}
+            <input id={{trip.trip_id}} name="sheep_marks" value={{trip.trip_id}} class="sheep_marks" type="checkbox" checked="checked">
+            <label>{{trip.trip_date_time}}</label><br>
+        {% endfor %}
+      </div>
+
+      <div id="userTrailTrips">
+        <h3>Check user trails</h3>
+        {% for trip in trips %}
+        <input id="user_{{trip.trip_id}}" name="user_trips" value={{trip.trip_id}} class="user_trips" type="checkbox" checked="checked">
+        <label>{{trip.trip_date_time}}</label><br>
+    {% endfor %}
+      </div>
+
+      
+    </div>
+
+    <div hidden>
+
+      {% for footprint in footprints %}
+      <p class="foot_{{footprint.trip.trip_id}}">{{footprint.latitude}},{{footprint.longitude}}</p>
+      {% endfor %}
+
+      {% for sheepEntry in sheepEntries %}
+      <p class="sheep_{{sheepEntry.trip.trip_id}}">{{sheepEntry.latitude}},{{sheepEntry.longitude}}</p>
+      {% endfor %}
+
+      {% for predator in predators %}
+      <p class="predator_{{predator.trip.trip_id}}">{{predator.latitude}},{{predator.longitude}}</p>
+      {% endfor %}
+
+      {% for dead in deadSheep %}
+      <p class="dead_{{dead.trip.trip_id}}">{{dead.dead_sheep_latitude}},{{dead.dead_sheep_longitude}}</p>
+      {% endfor %}
+  
+      
+    <ul id="pretatorJsonStrings">
+    </ul>
+
+    <p id="pred">{{ predatorAreas }}</p>
+
+    <ul class="predlist">
+      {% for predatorArea in predatorAreas %}
+      <li class "predlistitem"> {{ predatorArea.predator_json_string }}</li>
+      {% endfor %}
+    </ul>
+
+    </div>
+
+
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script src="{% static 'web/scripts.js' %}"></script> 
+    <!--    <script>openNav()</script>-->
+
+    <script>
+        loadOnlineMap(63.416798, 10.399254);
+        var savePredButton = document.getElementById('savePredDB');
+        savePredButton.style.display = "none";
+
+
+        function savePredDB(){
+          var predatorAreas = document.getElementsByClassName("pd");
+          var predatorAreaArray = [];
+          for (let i = 0;i < predatorAreas.length;i++) {
+            var arrValue = predatorAreas[i].innerHTML;
+            $.ajax({
+            data: {savePredatorArea: arrValue,
+            csrfmiddlewaretoken: '{{ csrf_token }}'},
+            type: 'POST'
+            }).done(function(response){
+            console.log(response);
+            });
+
+          //Adds the areas to the HTML list of saved predator areas.
+          var node=document.createElement("LI");
+          var textnode=document.createTextNode(arrValue);
+          node.appendChild(textnode);
+          node.className="predlistitem";
+          document.getElementsByClassName('predlist')[0].appendChild(node);
+          document.getElementById("savePredDB").style.visibility = "hidden";
+          }
+
+
+
+}
+
+    </script>
+  </body>
+  {% endblock %}
+</html>

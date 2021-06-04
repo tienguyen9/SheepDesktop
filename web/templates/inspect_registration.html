@@ -1,0 +1,44 @@
+<html>
+    <meta charset="UTF-8">
+    <title>How to use</title>
+
+    {% load static %}
+
+    <link rel="stylesheet" type="text/css" href="{% static 'web/style.css' %}">
+
+    <body>
+        {% include "navigation.html" %}
+        <h2>Inspecting report entry id {{report}}</h2>
+        <table style="width:80%">
+            <tr>
+                <th>Trip ID</th>
+                <th>Date and time</th>
+                <th>Spotted sheep</th>
+                <th>Spotted lambs</th>
+                <th>Expected lambs</th>
+                <th>Missing lambs</th>
+                <th>Dead Animals</th>
+                <th>Wolf</th>
+                <th>Lynx</th>
+                <th>Wolverine</th>
+            </tr>
+            <tr>
+                <td>{{ trip.trip_id }}</td>
+                <td>{{ trip.trip_date_time }}</td>
+                <td>{{totalSheep}}</td>
+                <td>{{totalLambs}}</td>
+                <td>{{totalExpectedLambs}}</td>
+                <td>{{missingLambs}}</td>
+                <td>{{deadSheep}}</td>
+                <td>{{totalWolves}}</td>
+                <td>{{totalLynx}}</td>
+                <td>{{totalWolverines}}</td>
+            </tr>
+        </table><br>
+        <label>Description:</label>
+        <br>
+        <div id="inspectDesc">
+        <p>{{report.description}}</p>
+        </div>
+    </body>
+</html> 

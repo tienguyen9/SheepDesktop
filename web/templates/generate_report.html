@@ -1,0 +1,41 @@
+<html>
+    <meta charset="UTF-8">
+    <title>Generate report</title>
+
+    {% load static %}
+
+    <link rel="stylesheet" type="text/css" href="{% static 'web/style.css' %}">
+
+    <body>
+        {% include "navigation.html" %}
+        <h2>Report records</h2>
+        <button><a href="{% url 'makepdf' %}">Generate PDF of registered trips</a></button><br><br>
+
+
+        <table style="width:50%">
+            <tr>
+                <th>Trip ID</th>
+                <th>Date and time</th>
+                <th>Registered?</th>
+                <th>Action</th>
+                <th>Inspect</th>
+            </tr>
+            {% for trip, regID in zipped_trips %}
+            <tr>
+                <td>{{ trip.trip_id }}</td>
+                <td>{{ trip.trip_date_time }}</td>
+                {% if regID != 0 %}
+                <td>Yes</td>
+                <td><a href={% url 'unregister' reportID=regID %}>Unregister</a></td>
+                <td><a href={% url 'inspectRegistration' reportID=regID%}>Inspect</a></td>
+                {% else %}
+                <td>No</td>
+                <td><a href={% url 'registerTrip' tripID=trip.trip_id%}>Register</a></td>
+                <td>Unavailable</td>
+                {% endif %}
+
+            </tr>
+            {% endfor %}
+        </table>
+    </body>
+</html> 

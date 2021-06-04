@@ -1,0 +1,24 @@
+
+<html>
+    <meta charset="UTF-8">
+    <title>Drive</title>
+
+    {% load static %}
+
+    <link rel="stylesheet" type="text/css" href="{% static 'web/style.css' %}">
+
+    <body>
+        {% include "navigation.html" %}
+        <label>Logged in:</label>
+        {{ loginStatus }}
+        <form method="post">
+            {% csrf_token %}
+            <button class="driveButtons" type="submit" name="download">Download DB file</button>
+        </form>
+
+        <form method="post">
+            {% csrf_token %}
+            <button class="driveButtons" name="signout">Sign out</button>
+        </form>
+    </body>
+</html> 

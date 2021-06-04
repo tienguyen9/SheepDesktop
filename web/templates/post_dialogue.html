@@ -1,0 +1,14 @@
+<html>
+    <meta charset="UTF-8">
+    <title>Drive dialogue</title>
+
+    {% load static %}
+
+    <link rel="stylesheet" type="text/css" href="{% static 'web/style.css' %}">
+
+    <body>
+        {% include "navigation.html" %}
+        <p id="message"> {{postMessage}} </p> <br>
+        <a href ="{% url 'index' %}">Go back to home page</a>
+    </body>
+</html> 
