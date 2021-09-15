@@ -20,7 +20,7 @@ This section will show you how to run the application on Windows.
 The database files in the repository contain example data for demonstration purposes. When downloading a new database, this example data will be overwritten
 
 ## Google Drive Access
-For using the Google Drive feature, a JSON file containing the appplication credentials are required. This file should be put in the root directory of the project. If you wish to test the feature, please contact contactsheeptracker@gmail.com to gain the credentials.
+For using the Google Drive feature, a JSON file containing the appplication credentials is required. This file should be put in the root directory of the project. If you wish to test the feature, please contact contactsheeptracker@gmail.com to gain the credentials.
 
 ## Contact
 For additional support, please contact: contactsheeptracker@gmail.com
